@@ -1,6 +1,13 @@
 # accent
 
-[toc]
+- [Summary](#summary)
+    * [Module overview](#module-overview)
+- [Models](#models)
+    * [DDD](#ddd)
+    * [Event Message](#event-message)
+    * [Command Request](#command-request)
+    * [Query Request](#query-request)
+    * [Client Request](#client-request)
 
 ---
 
@@ -8,24 +15,31 @@
 
 `accent` constructs the base model in naraway and
 Prescribes relationships between models of types. In addition, it has a shared model, Jpo (RDBMS), and Doc (Mongo) store model, and sets keys for each Workspace and User level.
-configure.
 
 
 ### Module overview
 
 The dependency relationship between metro multi-tenency service libraries is configured as follows.
 
-![](http://www.plantuml.com/plantuml/png/PP31Ri8m38RlUGgBdQEzm0viJBm0kw4UtCHGZpIk70U9FVr2MIVOJkvl_VzVVraNGxKw9bTEd2TK7278E4ccR3kx90AbO9YFYUuicyNo9Xf9Dv94eKyOJixznW53k8wzktty37zGQS9xxpoyqu4p6qi6EK16HNXD2NO3AaNuk4nKccjJYyd8NpWR-mk4UK4Aayed1GCkaCLWabAuJzGoku29eCT24Lg8S-Gpnue92XiLi46b7WVWF91o8mpakllhOmF5rf_aMAb1pDelYp_o7cgvVdQ0DGR0706h3QsNmqpnV9MY2rChuV3u_zKjFt9GAQHd3bHMyBJTRftRtvwoWnVlOVzmQUSUzUBvNzQvDULOn_GD)
+![](http://www.plantuml.com/plantuml/png/RP11ZzD038NlyokivGA7b5q4d3WKIYljPGyK2QJIW-Dn6xEJSUIPh9JzzKmILaeGf_6pdr_yPPioMkxRu1hn32H6WUUwvToeJywbHuaT6hP00LFwdBD9tMU-9ur7UMQuNLY2HCv3nz1f64RnlvbQYLuCTcFk5pNFjjEW1dL0UbmOJFleIIsomGVdJAvDXejgBdgdtJ0tNjCRUDZ__FvjluVxI9jVSPia4iExsxlt6_YuWRlRZNEaRQUHOmOa6f-Jcuk_JtKnBQAgAbV1Lxv8b2mQGI_mW8Rm0mV0420rQEnX94h5kUjJrbQUSJBN0z3KO8FEz3TJ1aaGDKEdAKaTkEmS2GD3ZQdaQ0I9Nfx4zrZ29NE2t1JoQrC63PjaB33kl2JmXYsM_A3NdWl8fAkNnZzo1NQShf-99ji40XWzO9-R4YuqeRmTfTeBM4aIMXznC--tGgQ9xKc8qmsyEXmEpftcVtg6JrK5fzMvPxVMIyywh7njoz7tRVW3)
 <!--
 ```plantuml
-skinparam componentStyle rectangle
-skinparam ComponentBorderColor black
+hide circle
+hide methods
+
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam linetype ortho
+skinparam ClassBorderColor black
+skinparam roundcorner 5
+
+right footer Copyright (c) NEXTREE Inc.\n@since 2014. 6. 10.
 
 component accent [
 accent
 accent-front
 ---
-- Definition of nara All Shared Types
+- Definition of Nara Way all shared types
 - Customization by customer project is not possible
 - Scale based on individual sites through inheritance
 ]
@@ -34,7 +48,7 @@ component dramaprologue [
 drama-prologue
 drama-prologue-front
 ---
-- Shared drama type and authentication/authorization logic
+- Shared Nara drama type and authentication/authorization logic
 ]
 
 component "drama microservices" #FFF
@@ -44,7 +58,7 @@ component "drama microservices" #FFF
 ```
 -->
 
-## Ubiquitous language model
+## Models
 
 ### DDD
 
