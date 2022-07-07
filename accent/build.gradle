@@ -1,0 +1,36 @@
+dependencies {
+    implementation("javax.persistence:javax.persistence-api:2.2")
+    implementation("org.springframework.data:spring-data-mongodb:3.3.0")
+
+    implementation("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:${jacksonVersion}")
+
+    implementation("cz.jirutka.rsql:rsql-parser:2.1.0")
+    implementation("com.github.tennaito:rsql-jpa:2.0.2")
+    implementation("com.github.rutledgepaulv:rest-query-engine:0.7.1")
+    implementation("org.mindrot:jbcrypt:0.3m")
+
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation("org.mockito:mockito-core:4.2.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:4.2.0")
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            artifactId = project.name
+            version = version
+            from components.java
+        }
+    }
+}
