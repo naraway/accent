@@ -1,29 +1,19 @@
-# created by https://www.nextree.io
-
-# intellij specific
-.idea/
-.idea/*.xml
-.idea_modules/
-.idea/misc.xml
-*.iml
-modules.xml
-*.ipr
-/out/
-/build/
-
-# sonar scanner
-.scannerwork/
-
-# java
-# compiled class file
+# Compiled class file
 *.class
 
-# log file
-*.event
+# Log file
+*.log
 
-# package Files
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
 *.jar
 *.war
+*.nar
 *.ear
 *.zip
 *.tar.gz
@@ -32,139 +22,8 @@ modules.xml
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# maven
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-
-# avoid ignoring maven wrapper jar file (.jar files are usually ignored)
-!/.mvn/wrapper/maven-wrapper.jar
-
-# node module
-node_modules/
-dist/
-
-# mac
-.DS_Store
-
-# created by https://www.gitignore.io/api/java,gradle,intellij
-# edit at https://www.gitignore.io/?templates=java,gradle,intellij
-
-# intellij
-# covers jetbrains ides: intellij, rubymine, phpstorm, appcode, pycharm, clion, android studio and webstorm
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
-
-# user-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
-
-# generated files
-.idea/**/contentModel.xml
-
-# sensitive or high-churn files
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
-
-# gradle
-.idea/**/gradle.xml
-.idea/**/libraries
-
-# gradle and maven with auto-import
-# when using gradle or maven with auto-import, you should exclude module files,
-# since they will be recreated, and may cause churn.  uncomment if using
-# auto-import.
-# .idea/modules.xml
-# .idea/*.iml
-# .idea/modules
-
-# cmake
-cmake-build-*/
-
-# mongo explorer plugin
-.idea/**/mongoSettings.xml
-
-# file-based project format
-*.iws
-
-# intellij
-out/
-
-# mpeltonen/sbt-idea plugin
-
-# jira plugin
-atlassian-ide-plugin.xml
-
-# cursive clojure plugin
-.idea/replstate.xml
-
-# crashlytics plugin (for android studio and intellij)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
-
-# editor-based rest client
-.idea/httpRequests
-
-# android studio 3.1+ serialized cache file
-.idea/caches/build_file_checksums.ser
-
-# sonarlint plugin
-.idea/sonarlint
-
-# java
-# compiled class file
-
-# log file
-*.log
-
-# bluej files
-*.ctxt
-
-# mobile tools for java (j2me)
-.mtj.tmp/
-
-# package files #
-*.nar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-
-# gradle
+# naraway
+.idea
 .gradle
-build/
-gradlew
-gradlew.bat
-
-# ignore gradle gui config
-gradle-app.setting
-
-# avoid ignoring gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-# cache of project
-.gradletasknamecache
-
-# work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
-
-# gradle patch
-**/build/
-
-# nara
 .nara
-
-# end of https://www.gitignore.io/api/java,gradle,intellij
+build
