@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: accent
+  profiles:
+    active: default
+  data:
+    mongodb:
+      authentication-database: accent
+      host: localhost
+      port: 27017
+      database: accent
+      username: accent
+      password: accent
+
+server:
+  port: 9093
+
+logging:
+  level:
+    io.naraway: info
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-60.60logger{59}){cyan} %clr(:){faint} %m%n%wEx'
