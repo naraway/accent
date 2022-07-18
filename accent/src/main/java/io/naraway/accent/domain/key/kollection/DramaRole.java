@@ -32,6 +32,12 @@ public class DramaRole implements JsonSerializable {
         return String.format("%s%s%s", dramaId, DELIMITER, code);
     }
 
+    @Override
+    public String toString() {
+        //
+        return toJson();
+    }
+
     public static DramaRole fromJson(String json) {
         //
         return JsonUtil.fromJson(json, DramaRole.class);

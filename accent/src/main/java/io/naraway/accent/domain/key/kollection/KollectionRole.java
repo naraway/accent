@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,6 +26,13 @@ public class KollectionRole implements JsonSerializable {
     private String name;
     private String description;
     private boolean defaultRole;
+    private List<DramaRole> dramaRoles;
+
+    @Override
+    public String toString() {
+        //
+        return toJson();
+    }
 
     public static KollectionRole fromJson(String json) {
         //
@@ -35,7 +45,8 @@ public class KollectionRole implements JsonSerializable {
                 "member",
                 "Member",
                 "Member Role",
-                true
+                true,
+                Arrays.asList(DramaRole.sample())
         );
     }
 
