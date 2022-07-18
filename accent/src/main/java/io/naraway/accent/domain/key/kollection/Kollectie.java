@@ -27,31 +27,24 @@ public class Kollectie implements JsonSerializable {
     private String description;
     private List<String> requiredRoles;
 
-    public static Kollectie fromJson(String json) {
-        //
-        return JsonUtil.fromJson(json, Kollectie.class);
-    }
-
     @Override
     public String toString() {
         //
         return this.toJson();
     }
 
+    public static Kollectie fromJson(String json) {
+        //
+        return JsonUtil.fromJson(json, Kollectie.class);
+    }
+
     public static Kollectie sample() {
         //
-        KollectionRole requiredRole = new KollectionRole(
-                "manager",
-                "Course Manager",
-                "Course Manager Role",
-                false
-        );
-
         return new Kollectie(
                 "course",
                 "Course Management",
                 "Course Management Role",
-                Arrays.asList(requiredRole.getCode())
+                Arrays.asList(KollectionRole.sample().getCode())
         );
     }
 
