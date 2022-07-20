@@ -65,6 +65,7 @@ public abstract class AbstractQuery<T> extends TrailMessage {
         this.response = new QueryResponse<>((T) slice.getContent());
         this.offset.setPrevious(slice.hasPrevious());
         this.offset.setNext(slice.hasNext());
+        this.response.setOffset(this.offset);
     }
 
     public void setResponse(FailureMessage failureMessage) {
