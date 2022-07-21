@@ -152,15 +152,6 @@ public abstract class TenantKey implements JsonSerializable {
         }
     }
 
-    public static String parseToSequence36(String keyWithSequence) {
-        //
-        if (!keyWithSequence.contains("@")) {
-            throw new IllegalArgumentException("Invalid member key");
-        }
-
-        return keyWithSequence.substring(0, keyWithSequence.indexOf(MEMBER_DELIMITER));
-    }
-
     protected String parseToSequence36() {
         //
         return parseToSequence36(id);
@@ -176,5 +167,38 @@ public abstract class TenantKey implements JsonSerializable {
         }
 
         return spaceKeys;
+    }
+
+    public static String parseToSequence36(String keyWithSequence) {
+        //
+        if (!keyWithSequence.contains("@")) {
+            throw new IllegalArgumentException("Invalid member key");
+        }
+
+        return keyWithSequence.substring(0, keyWithSequence.indexOf(MEMBER_DELIMITER));
+    }
+
+    @SuppressWarnings("java:S3776")
+    public static TenantType getTenantType(String key) {
+        //
+        boolean isMemberKey = key.contains(MEMBER_DELIMITER);
+        String spacePart = isMemberKey ? key.substring(key.indexOf(MEMBER_DELIMITER) + 1) : key;
+
+        if (spacePart.matches("\\w+:\\w+:\\w+:\\w+-\\w+")) {
+            return isMemberKey ? TenantType.Actor : TenantType.Stage;
+        } else if (spacePart.matches("\\w+:\\w+:\\w+:\\w+")) {
+            return isMemberKey ? TenantType.Audience : TenantType.Cineroom;
+        } else if (spacePart.matches("\\w+:\\w+:\\w+")) {
+            return isMemberKey ? TenantType.Citizen : TenantType.Pavilion;
+        } else if (spacePart.matches("\\w+:\\w+")) {
+            return isMemberKey ? TenantType.Denizen : TenantType.Square;
+        } else if (spacePart.matches("\\w+")) {
+            if (isMemberKey) {
+                throw new IllegalArgumentException("Invalid member key");
+            }
+            return TenantType.Station;
+        }
+
+        throw new IllegalArgumentException("Invalid tenant key");
     }
 }
