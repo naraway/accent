@@ -44,11 +44,13 @@ public abstract class AbstractQuery<T> extends TrailMessage {
     public void setResponse(QueryResponse<T> response) {
         //
         this.response = response;
+        this.response.setOffset(this.offset);
     }
 
     public void setResponse(T t) {
         //
         this.response = new QueryResponse<>(t);
+        this.response.setOffset(this.offset);
     }
 
     public void setResponse(Page page) {
@@ -71,6 +73,7 @@ public abstract class AbstractQuery<T> extends TrailMessage {
     public void setResponse(FailureMessage failureMessage) {
         //
         this.response = new QueryResponse<>(failureMessage);
+        this.response.setOffset(this.offset);
     }
 
     public void setOffset(Offset offset) {
