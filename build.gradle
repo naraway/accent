@@ -31,8 +31,6 @@ allprojects {
     }
 }
 
-def useMavenLocalFirst = false
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'groovy'
@@ -46,7 +44,6 @@ subprojects {
     targetCompatibility = JavaVersion.VERSION_11
 
     repositories {
-        if (useMavenLocalFirst) mavenLocal()
         mavenCentral()
     }
 
