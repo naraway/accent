@@ -1,443 +1,309 @@
 # accent
 
-- [Summary](#summary)
-    * [Module overview](#module-overview)
-- [Models](#models)
-    * [DDD](#ddd)
-    * [Event Message](#event-message)
-    * [Command Request](#command-request)
-    * [Query Request](#query-request)
-    * [Client Request](#client-request)
+The accent provides a basic types and ubiquitous language for developing drama on
+[NARA Way](https://naraway.io). For a detailed usage or guide document, please see
+[NARA Way](https://naraway.io).
 
----
+## Features
 
-## Summary
+- Domain base model classes
+- Interface for message classes
+- Base model classes for kollection and drama
+- Tenant base model classes
+- Utility classes
 
-`accent` constructs the base model in naraway and
-Prescribes relationships between models of types. In addition, it has a shared model, Jpo (RDBMS), and Doc (Mongo) store model, and sets keys for each Workspace and User level.
+## Installation
 
-
-### Module overview
-
-The dependency relationship between metro multi-tenency service libraries is configured as follows.
-
-![](http://www.plantuml.com/plantuml/png/RP11ZzD038NlyokivGA7b5q4d3WKIYljPGyK2QJIW-Dn6xEJSUIPh9JzzKmILaeGf_6pdr_yPPioMkxRu1hn32H6WUUwvToeJywbHuaT6hP00LFwdBD9tMU-9ur7UMQuNLY2HCv3nz1f64RnlvbQYLuCTcFk5pNFjjEW1dL0UbmOJFleIIsomGVdJAvDXejgBdgdtJ0tNjCRUDZ__FvjluVxI9jVSPia4iExsxlt6_YuWRlRZNEaRQUHOmOa6f-Jcuk_JtKnBQAgAbV1Lxv8b2mQGI_mW8Rm0mV0420rQEnX94h5kUjJrbQUSJBN0z3KO8FEz3TJ1aaGDKEdAKaTkEmS2GD3ZQdaQ0I9Nfx4zrZ29NE2t1JoQrC63PjaB33kl2JmXYsM_A3NdWl8fAkNnZzo1NQShf-99ji40XWzO9-R4YuqeRmTfTeBM4aIMXznC--tGgQ9xKc8qmsyEXmEpftcVtg6JrK5fzMvPxVMIyywh7njoz7tRVW3)
-<!--
-```plantuml
-hide circle
-hide methods
-
-skinparam classAttributeIconSize 0
-skinparam linetype polyline
-skinparam linetype ortho
-skinparam ClassBorderColor black
-skinparam roundcorner 5
-
-right footer Copyright (c) NEXTREE Inc.\n@since 2014. 6. 10.
-
-component accent [
-accent
-accent-front
----
-- Definition of Nara Way all shared types
-- Customization by customer project is not possible
-- Scale based on individual sites through inheritance
-]
-
-component dramaprologue [
-drama-prologue
-drama-prologue-front
----
-- Shared Nara drama type and authentication/authorization logic
-]
-
-component "drama microservices" #FFF
-
-[accent] <-- [dramaprologue]
-[dramaprologue] <-- [drama microservices]
+```groovy
+implementation 'io.naraway:accent'
 ```
--->
 
-## Models
+## Usage
 
-### DDD
+### Tenants
 
-It defines the basic model for domain-based development. It consists of an entity base model and annotations for automatic generation.
+You can generate IDs for types derived from object ID key values for tenant and workspace types.
 
-![](http://www.plantuml.com/plantuml/png/VPFVJnin3CVVxw-8j1SGQWNJjWU44AnKY0q1eWXDOZpaSkxL8ublZg_IiV6_h_U3BdUql3d-VkpOZdCIHBEKpYOBp40PP6EXjHt8WhAG9E49VQ5PEsMi3k5KX34j1IuC-Ha-WzgF48iUf2f05MIh-h198rwbZeH9dVShSGOy8KkiKglDKmGmbJupn1vOVNvJaVgJA9Mk8lA6Qr8S7O4l7R0M97zyh719N6t2q0lmN1jOGOu4bqt49b9xJ_AQps6GYYd0HZ8Dmjh8YjD5OT6qEL-IX35VY9eJ2R2QK56rZXspgwwcF-vkfrDruStufpy9w0seZ_i7dyRgorWTx8-JfEtsZ9n6Vvhd3BaMKBqUUipK2qgbueAQMIarKfWTgfam-hnpG0FV0mSaVwWihHM678Dqixn31ptLKOPpD9l4lLQiTgwqWtjjIxZ48BkDzg7JrkiKXjHBryktG7u6ZDhYiqxjeE6keJqbL8Cxkt5RZVk6GQJgY-laCz4vl3SdXjybrDr_X-fGdHgXsbh7D_MUCvN5iAmUSPt-0YFRaFR-Ivp3f38Mr71vsrfMVLXqw7MpoAgk1PVGc6V4Jdjfx5jmj8HiNU4v-3eJN1Trjg3YHOxwB9WAO448zPHki_IcTLGFZnrH5fcM-W7-Zt6bTTV44TkkyDf5iPtJa2sTlzektLN5rgZIsjU2KY8BklbaRnVcxwWSzHxYNQPvpet4gFUnalZGoF4w9SdmeuuU5fXbu1-pGPxX4yLWDDSaicDck3_92VYiTFOV)
-<!--
-```plantuml
-hide circle
-hide methods
+```java
+public class Clazz {
+    //
+    public void method() {
+        //
 
-skinparam classAttributeIconSize 0
-skinparam linetype polyline
-skinparam linetype ortho
-skinparam ClassBorderColor black
-skinparam roundcorner 5
+        // ...
 
-skinparam class {
-  backgroundColor<<enumeration>> ivory
-  backgroundColor<<interface>> motivation
-  backgroundColor<<annotation>> mistyrose
-  backgroundColor<<abstract>> application
+        // cregate actor key from string
+        ActorKey actorKey = ActorKey.fromId("1@1:1:1:1-1");
+        log("stage id: ", actorKey.genStageId());
+        log("citizen id: ", actorKey.genCitizenId());
+        log("pavilion id: ", actorKey.genPavilionId());
+
+        // determine tenant type
+        TenantType tenantType = TenantKey.getTenantType("1@1:1:1:1");
+
+        // ...
+    }
 }
-
-right footer Copyright (c) NEXTREE Inc.\n@since 2014. 6. 10.
-
-class DomainAggregate <<interface>>
-class DomainEntity <<abstract>> {
-    - id: String
-    - entityVersion: long
-    - registerationTime: long
-    - modificationTime: long
-    + modify(NameValueList)
-    # modifyAttributes(NameValueList)
-}
-class JsonSerializable <<interface>> {
-    + toJson(): String
-    + toPrettyJson(): String
-}
-class StageEntity <<abstract>> {
-    - requesterKey: ActorKey
-}
-class ValueGroup <<interface>> {}
-class ValueObject <<interface>> {}
-class EntityLifeCycle <<enumeration>> {
-    Preliminary
-    Active
-    Dormant
-    Removed
-}
-class GenerateOptions <<annotation>> {
-    - properties(): RdbProperty[]
-    - updatable(): String[]
-}
-class RdbProperty <<annotation>> {
-    - name(): String
-    - columnName(): String
-    - columnType(): String
-    - columnNullable(): boolean
-}
-
-JsonSerializable <|-u- ValueObject 
-JsonSerializable <|-u- ValueGroup
-JsonSerializable <|-- DomainEntity
-DomainEntity <|-- StageEntity
-
-DomainAggregate -[hidden]d- DomainEntity
-GenerateOptions -[hidden]d- RdbProperty
-RdbProperty -[hidden]d- EntityLifeCycle
 ```
--->
 
-### Event Message
+Identity rules based on tenant and workspace type are shown below.
 
-The relationship between event-based messages inherited from trail messages is as follows.
+| Tenant Type | Sample       |
+|-------------|--------------|
+| Station     | 1            |
+| Square      | 1:1          |
+| Pavilion    | 1:1:1        |
+| Cineroom    | 1:1:1:1      |
+| Backstage   | 1:1:1:1_1    |
+| Stage       | 1:1:1:1-1    |
+| Denizen     | s5@1:1       |
+| Citizen     | s5@1:1:1     |
+| Audience    | s5@1:1:1:1   |
+| Actor       | s5@1:1:1:1-1 |
 
-![](http://www.plantuml.com/plantuml/png/bLDFRnC_4Btlfx1w-lqEYLe47Agg0j8SAX4acXoGW8DZJv9HRSyodWGMw7V7YRE9arqgSVEyz-RDpfzTeGLba8s3QlVs82koiQhY8uPQi_RAE1tZMn76-LhWtb2OuazGbuN4OG1fQb0rkMORz774oReWHblVTyGMU4IEMCsTDe-5W6aTh24EmEfLvulKhqgfUSfOxdGxYviR26iFh0KftDugt10tVJ8C0hpG1fB8a-1cbz6dr26Gj7uUepHC4NgLyoYiZIIThck79di-LHNZSYLgGIJ0QaHrau7_pF_gm_ZJx64yLlV13B-4Dn630VNYykhbKBqUgglBOLNbRcUiqKqWHhq4LHRRpK6fWK9xhQR269PxGBOfzs51rshMFlUKpqQpj9SzEJaYrLDHioJK-NnpwP532F80tzOG9IFalGwsX3wkWPiIk6k2zcYwk1Ozta3OH-GrXXmNdsLWsqogNtPQz5yssS4Zy0ODzAhFqLep19bqd4fsclt-cPlqLbn7u4wXv_ULDPo7E4EVD8uEkTyrId8gy7QGnN3FJkgWQ9VHVtAsfVE7tPLXrV5uveGUO8bHWC7kmWbPN60ACkTf0_RqAaSK17x8yG9M3Dg-9wDT6j0nE6HD9M4-z_BNFwRMZIDjSpTzp6ZhrK-TeO8UecXV7_2dgZhvYGSyk5KNnMOlkfizJN3R16clFydRvwdkvlV03ihbzj35RtPuxGkSBFNYRAdb60VsymgjXV0rfPLR-GC0)
-<!--
-```plantuml
-hide circle
-hide methods
+### DomainEntity, StageEntity
 
-skinparam classAttributeIconSize 0
-skinparam linetype polyline
-skinparam linetype ortho
-skinparam ClassBorderColor black
-skinparam roundcorner 5
+StageEntities and DomainEntities have an inheritance relationship between
+children and parents. Every Domain Model used in the NARA Way will inherit
+and implement one of these two.
 
-skinparam class {
-  backgroundColor<<enumeration>> ivory
-  backgroundColor<<interface>> motivation
-  backgroundColor<<annotation>> mistyrose
-  backgroundColor<<abstract>> application
-}
+**DomainEntity:**
 
-right footer Copyright (c) NEXTREE Inc.\n@since 2014. 6. 10.
+A Domain Model without a Stage context that is used by the
+platform kernel and not by normal dramas. It only has basic user information
+and basic property information for the Entity.
 
-class TrailMessage <<abstract>> {
-    - id: String
-    - trailInfo: TrailInfo
-    - messageType: TrailMessageType
-}
-class TrailMessageType <<enumeration>> {
-    ClientRequest
-    CommandRequest
-    QueryRequest
-    DynamicQueryRequest
-    DataEvent
-    DomainEvent
-}
-class TraceInfo {
-    - trailId: String
-    - messageId: String
-    - service: String
-    - message: String
-    - parentMessageId: String
-    - parentService: String
-    - parentService: String
-    - parentMessage: String
-    - userId: String
-    - messageType: TrailMessageType
-    - requestTime: long
-    - waitingTime: long
-}
-class DomainEvent <<abstract>> {}
-class DataEvent <<abstract>> {
-    - dataEventType: DataEventType
-}
-class DataEventType <<enumeration>> {
-    Registered
-    Modified
-    Removed
-}
-class TrailContext {
-    - threadLocal: ThreadLocal
-}
-class StreamEvent {
-    - id: String
-    - payloadType: String
-    - payloadClass: String
-    - payload: String
-    - timestamp: String
-}
+```java
+public abstract class DomainEntity implements JsonSerializable {
+    //
+    private String id;
+    private long entityVersion;
+    private String registeredBy;
+    private long registeredOn;
+    private String modifiedBy;
+    private long modifiedOn;
 
-TrailMessage -r-> "messageType" TrailMessageType
-TrailMessage -l-> "traceInfo" TraceInfo
-TrailMessage <|-d- DomainEvent
-TrailMessage <|-d- DataEvent
-DataEvent -l-> "dataEventType" DataEventType
-StreamEvent -d[hidden]-> TrailContext
+    // ...
+}
 ```
--->
 
-### Command Request
+**StageEntity:**
 
-The relationship between data handling (CUD) based messages inherited from domain messages is as follows.
+The NARA Way Drama service is consumed by Actor users within the Stage workspace.
+The DomainEntity becomes a StageEntity with the Stage context property added to
+it that the user is working with.
 
-![](http://www.plantuml.com/plantuml/png/bLDDRzD04BtxLunoWaEY5W67geeAQIf58fL8WyI1osOzIKVT3pCx3fZI_uwTTLDx7LNYvdtlpPkTsUUh88gbjEQUSWHDh0rcWs-BSk_pa6NXWLoXM5dGHeNmIOHfKmekj7Ttz0VXh2Cnv52g0g7mfceEfpZFjNM7c3M-dptdo3DlFCF6AFtG4R0lNQuzEsJuCBWHF6O0cxfYTz0TB2ulqPKMMGbvDvq2xJrNfsJa17chDDOYwuNsXufJIkMSbsS_Iq4gzW5FAZT1M6cfTQee3Ede-PHbJBjxWQttWWmpNrGHUAFVmkty-terdyF2wSaFTnN8QOHtP-Vl9_1n0kTdaooBqwvPaLbY26g7q6lMx05W39HVm9qmkLqBI5EoS5j_4QkRpvQoqMXT5TYIonSaUuez1mIa-usjPuRGoGf_bXWa8jvQvV8kzBL4hhh0TUMK9Jt4bQZv7brxybQHY-VEjJGsmy1ZRz9q_dR80HwGzwJnf3f52yNePDbpIjcxwFVVtF9anp8W3ngz_bvHmt69QxArnlXZxIz5KZjryDxxhZ0KtWNQ68J-Z_7OwfBdF9q-7JNnXcr1ztAnomlNjZs6BSMFnkY4f5hauGA-K93Bk9TfV-WRHGRhfMsyDwXSIsvhj6GyxlccTquxlvBm5Uue2FBXiFGvRQiMjtuVH_mMaAznImxpet6lNsUYtngBnlzMsVJrZrmIZfIU-Vo5Uu8iwuO2nZoUmgWJcj4WD4c1QGha-STgvErdbZp-k1p_dVRSKaNqwkHXrCj3eevNVOx7Q12Fv1pxfyaTog9jFm2ZD01NwFBIcdy0)
-<!--
+```java
+public abstract class StageEntity extends DomainEntity {
+    //
+    protected ActorKey requesterKey;
+    protected String stageId;
+    protected String pavilionId;
+
+// ...
 ```
-hide circle
-hide methods
 
-skinparam classAttributeIconSize 0
-skinparam linetype polyline
-skinparam linetype ortho
-skinparam ClassBorderColor black
-skinparam roundcorner 5
+There is a class type that maps the above two entity objects to JPO objects in an
+RDBMS or Document objects in mongo - `DomainEntityJpo`, `StageEntityJpo` or `DomainEntityDoc`,
+`StageEntityDoc` under the `store` package.
 
-skinparam class {
-  backgroundColor<<enumeration>> ivory
-  backgroundColor<<interface>> motivation
-  backgroundColor<<annotation>> mistyrose
-  backgroundColor<<abstract>> application
-}
+### JsonSerializable, JsonUtil
 
-right footer Copyright (c) NEXTREE Inc.\n@since 2014. 6. 10.
+Server objects in the NARA Way are used to serialize data in JSON when data is
+passed to events or to the front. We provide an Interface and a utility class
+for this.
 
-class TrailMessage <<abstract>> {
-    - id: String
-    - trailInfo: TrailInfo
-    - messageType: TrailMessageType
-}
-class TrailMessageType <<enumeration>> {
-    ClientRequest
-    CommandRequest
-    QueryRequest
-    DynamicQueryRequest
-    DataEvent
-    DomainEvent
-}
-class TraceInfo {
-    - trailId: String
-    - messageId: String
-    - service: String
-    - message: String
-    - parentMessageId: String
-    - parentService: String
-    - parentService: String
-    - parentMessage: String
-    - userId: String
-    - messageType: TrailMessageType
-    - requestTime: long
-    - waitingTime: long
-}
-class TrailResponsible <<interface>> {}
-class CommandRequest <<abstract>> {
-    - commandType: CommandType
-    - response: CommandResponse
-}
-class CommandResponse {
-    - entityIds: List<String>
-    - requestFailed: boolean
-    - failureMessage: FailureMessage
-}
-class CommandType <<enumeration>> {
-    Register
-    Modify
-    Remove
-    UserDefined
-}
-class FailureMessage {
-    - exceptionName: String
-    - exceptionMessage: String
-    - exceptionCode: String
-} 
+Implementing the JsonSerializable interface gives you access to the `toJson()`
+and `toPrettyJson()` methods, and all non-Entity, ValueObject, and DomainMessage
+objects must use the JsonSerializable interface.
 
-TrailMessage -r-> "messageType" TrailMessageType
-TrailMessage -l-> "traceInfo" TraceInfo
-CommandRequest -u-|> TrailMessage
-CommandRequest -l-> "commandType" CommandType
-CommandRequest -r-> "response" CommandResponse
-CommandResponse -u-|> TrailResponsible
-CommandResponse -r-> "failureMessage" FailureMessage
+```java
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class FooRdo implements JsonSerializable {
+    //
+    private String name;
+    private int age;
+
+    @Override
+    public String toString() {
+        //
+        toJson();
+    }
+
+    public FooRdo fromJson(String json) {
+        //
+        return JsonUtil.fromJson(json, FooRdo.class);
+    }
+
+    public static FooRdo sample() {
+        //
+        return FooRdo.builder()
+                .name("John")
+                .age(20)
+                .build();
+    }
+
+    public void main(String[] args) {
+        //
+        System.out.println(sample().toPrettyJson());
+    }
+}
 ```
--->
 
-### Query Request
+### ValueObject, ValueGroup
 
-The relationship between inquiry(R)-based messages inherited from domain messages is as follows.
+Among DDD domains, `ValueObject` and `ValueGroup` are the interfaces used to define
+the value object type. The two types are identical, but can be differentiated by
+whether or not they are separated into separate fields when the store object code
+called Jpo or Doc is generated by the Studio Tool. When fetching data from the DB,
+the value object objects that will be used as search criteria filtering or sorting
+are created by implementing a `ValueGroup`.
 
-![](http://www.plantuml.com/plantuml/png/bLHDRzD04BtxLunoWaEY5W67g8fQGYf5eWNQ73XmsQmdwQZxuSwE0wRqlsDd7UDDB25EsNdpvitkp7CkWoYMqfe7oX4qiJQOdPmjoeFFGvQ5HtA5OcL16nN2bGZJkXHSQk_kwHV2MOzYoA5K1KBXJTK4GpdFjNGlCMzqFtZEaUVUU8QrKVgnHs1VkbnxTiZmxkH6y9m1hEkAxPwtbxYuG5TQP2NatMm6jFDS3T782V96QQn9rWljzXL3JEMSbuEUfI0L-u23p7KGLbfgdYeAGpfglcGPq_P1OEEz8CFS5rK4NkdNSBlujhfRB63fzEIxkmpaDCARi_Et4tW_WVEpIPR5rwvOaRd14DGM8MdMp05W39HFuLwOtBO5f2bPkesVmkfmR5Cs2gsg0gSzwOXaBsdFBW79VBlMSqFev0wVIWmI4M-jSdaV-beYLttWO-MK9NsAAr6B7ResybQHYt7lMXgRny1pyjBq_TqZJ_20l2EDm-mZj52CJcwEbPBiVTJxxzpDOCSo8AUD_hcloE4un1NPccDyL_j3aTHAFJpPxns6mhj0QuEGVXZF1zvLQxRzheRDnr45fuT5xwCswJURW3A5p_lVhdr_zKUgBMN89CFzdnh65yNAXdY5DZXk5c_PbQ4JacgPrqMVACX57FeidUYr8eFv5DRU6rIkJMvgj6JibdYTn5tV1Eur_gcn4FBkLjdK0RrSfpsSdllyR-u5iYpvZnZpU0QZdd56fyP92qnJ88UFQq-FnomrmBWS_vubOYcXRNsmn2YT_J7NHB7KYSUal15C9puwddXYadZ7H2LBpTJnJecNwFBIcZy0)
-<!--
-```plantuml
-hide circle
-hide methods
+After implementing `ValueGroup`, the attribute fields in Doc are created as follows.
 
-skinparam classAttributeIconSize 0
-skinparam linetype polyline
-skinparam linetype ortho
-skinparam ClassBorderColor black
-skinparam roundcorner 5
+```java
 
-skinparam class {
-  backgroundColor<<enumeration>> ivory
-  backgroundColor<<interface>> motivation
-  backgroundColor<<annotation>> mistyrose
-  backgroundColor<<abstract>> application
+@Getter
+@Setter
+@NoArgsConstructor
+public class Foo extends StageEntity {
+    //
+    private Name name;
+    private int age;
+
+    // ...
 }
 
-right footer Copyright (c) NEXTREE Inc.\n@since 2014. 6. 10.
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Name implements ValueGroup {
+    //
+    private String firstName;
+    private String lastName;
 
-class TrailMessage <<abstract>> {
-    - id: String
-    - trailInfo: TrailInfo
-    - messageType: TrailMessageType
+    // ...
 }
-class TrailMessageType <<enumeration>> {
-    ClientRequest
-    CommandRequest
-    QueryRequest
-    DynamicQueryRequest
-    DataEvent
-    DomainEvent
-}
-class TraceInfo {
-    - trailId: String
-    - messageId: String
-    - service: String
-    - message: String
-    - parentMessageId: String
-    - parentService: String
-    - parentService: String
-    - parentMessage: String
-    - userId: String
-    - messageType: TrailMessageType
-    - requestTime: long
-    - waitingTime: long
-}
-class TrailResponsible <<interface>> {}
-class AbstractQuery <<abstract>> {
-    - response: QueryReponse
-    - offset: Offset
-}
-class QueryRequest <<abstract>> {}
-class DynamicQueryRequest <<abstract>> {
-    - queryParams: QueryParams
-}
-class QueryResponse {
-    - entityIds: List<String>
-    - requestFailed: boolean
-    - failureMessage: FailureMessage
-}
-class FailureMessage {
-    - exceptionName: String
-    - exceptionMessage: String
-    - exceptionCode: String
-} 
 
-TrailMessage -r-> "messageType" TrailMessageType
-TrailMessage -l-> "traceInfo" TraceInfo
-AbstractQuery -u-|> TrailMessage
-AbstractQuery -r-> "response" QueryResponse
-AbstractQuery -l-|> TrailResponsible
-AbstractQuery -d-> "failureMessage" FailureMessage
-QueryRequest -u-|> AbstractQuery
-DynamicQueryRequest -u--|> AbstractQuery
+// generated doc class
+@Getter
+@Setter
+@NoArgsConstructor
+@Document(collection = "Foo")
+public class FooDoc extends StageEntityDoc {
+    //
+    private String nameFirstName; // delived from value group (entity attribute + value group's attribute)
+    private String nameLastName; // delived from value group (entity attribute + value group's attribute)
+    private int age;
+
+    // ...
+}
 ```
--->
 
-### Client Request
+### Message
 
-The relationship between Client messages inherited from domain messages is as follows.
+DomainMessage is the top-level interface of the models used in the NARA Way.
+EventMessage for message streams, CommandRequest used in REST, and QueryRequest all
+have DomainMessage as their top-level interface. The full inheritance relationship
+is as follows.
 
-![](http://www.plantuml.com/plantuml/png/bL9BZn914BxthwZiIG-GNQCUDXk28WSEcBYGwC5BqrD0PVinMrs36NN_kmtDc8QPc7YR_kfxr6EcKJHBuwnIUweG3B6ncByToZvKKQduHBxMh1qOgsFy8CAqQGGN9lWL_KIuBIYMF4fR8zJ1jiV7K2rmiYuAiwFlny0LyYpOmB2nsZmL10wDhqnWZmplUXt1BmMmIOhTYNUoU7X0tpXaBHJyP09q2DmEqSWBybORJ2GNX0udnH1JUn-aytCKfUKGSP2vYSBQIEBfkhPaikUBKaoxlS0sX1GAir2t6NXbNiFd-RVrutmE2s_6t_qqaZS8RsxltexX_HZkRiTAvMdNhCakCKQzGoZ3Jdi0605Lzx1AL_AxCo17oS9lmpsikyzpoMMZTLlZVM6T4VMICti5kDvlZfvPGY-F-DnWb8m4vxIlIkXBWzoMmAVMQqUcZslHymFwyoiuJJw_YxOC7eT9-UMavVp5a3qy8X_8u23x6gqrf-XbuTIlhhBVVzUMWubDQgyNzEzxPGxd9Qx99OuDVxK_D4boAl1kaTtXckUak_gfEivNt5pIKaML7S28HnEuAJgywNLu9R17WNHNJFJkKrr6ZPhHxmcKMfNRwN4kC3L5NpNE_W40)
-
-<!--
-```plantuml
-hide circle
-hide methods
-
-skinparam classAttributeIconSize 0
-skinparam linetype polyline
-skinparam linetype ortho
-skinparam ClassBorderColor black
-skinparam roundcorner 5
-
-skinparam class {
-  backgroundColor<<enumeration>> ivory
-  backgroundColor<<interface>> motivation
-  backgroundColor<<annotation>> mistyrose
-  backgroundColor<<abstract>> application
-}
-
-right footer Copyright (c) NEXTREE Inc.\n@since 2014. 6. 10.
-
-class TrailMessage <<abstract>> {
-    - id: String
-    - trailInfo: TrailInfo
-    - messageType: TrailMessageType
-}
-class TrailMessageType <<enumeration>> {
-    ClientRequest
-    CommandRequest
-    QueryRequest
-    DynamicQueryRequest
-    DataEvent
-    DomainEvent
-}
-class TraceInfo {
-    - trailId: String
-    - messageId: String
-    - service: String
-    - message: String
-    - parentMessageId: String
-    - parentService: String
-    - parentService: String
-    - parentMessage: String
-    - userId: String
-    - messageType: TrailMessageType
-    - requestTime: long
-    - waitingTime: long
-}
-class ClientReuqest <<abstract>> {}
-class WebClientReuqest {}
-
-TrailMessage -r-> "messageType" TrailMessageType
-TrailMessage -l-> "traceInfo" TraceInfo
-ClientReuqest -u-|> TrailMessage
-WebClientReuqest -u-|> ClientReuqest
+```mermaid
+classDiagram
+    DomainMessage <|.. AbstractQuery
+    AbstractQuery <|-- QueryRequest
+    QueryRequest <|-- OffsetQueryRequest
+    AbstractQuery <|-- DynamicQueryRequest
+    DynamicQueryRequest <|-- DynamicOffsetQueryRequest
+    DomainMessage <|.. CommandRequest
+    DomainMessage <|.. EventMessage
+    EventMessage <|-- DomainEvent
+    EventMessage <|-- DataEvent
 ```
--->
+
+### Entities
+
+You can generate a list of changed properties from a Domain Entity source and a
+changed object. Or you can provide a function for the purpose of generating a
+`NameValueList` object.
+
+Getting changed `nameValues` between source and modified entity:
+
+```java
+public class Clazz {
+    //
+    public void method(Foo sourceEntity, Foo modifiedEntity) {
+        //
+
+        // ...
+
+        NameValueList nameValue = Entities.getModifiedNameValues(sourceEntity, modifiedEntity);
+
+        // ...
+    }
+}
+```
+
+### Beans
+
+Provides the ability to copy properties between DomainEntity or StageEntity
+objects defined in the NARA Way, or to access and change property values through
+reflection.
+
+```java
+public class Clazz {
+    //
+    public void method(SomeBean entity) {
+        //
+
+        // ...
+
+        // check getter and setter
+        boolean hasNameAttributeGetter = Beans.hasGetter(entity, "name");
+        boolean hasNameAttributeSetter = Beans.hasSetter(entity, "name");
+
+        // read and write value
+        Object name = Beans.readValue(entity, "name");
+        Beans.writeValue(entity, "name", "John");
+
+        // copy properties except age and id
+        SomeBean newEntity = new SomeBean();
+        Beans.copyProperties(entity, newEntity, "age", "id");
+
+        // reflect properties
+        List<String> properties = Beans.getProperties(SomeBean.class);
+
+        // ...
+    }
+}
+```
+
+### TinyUUID
+
+A utility class that generates a randomized ID, similar to Java's UUID.
+It generates the UUID format as 22 characters of a 64-bit string. It can
+also be generated by giving it a prefix.
+
+```java
+public class Foo {
+    //
+    public static void main(String[] args) {
+        //
+        System.out.println(TinyUUID.random());             // fFKp7aMGkA19ikVIOEK9CX 
+        System.out.println(TinyUUID.random("usid"));       // usid_cIV7BQwuQN3bP1WWPnKgIL
+        System.out.println(TinyUUID.random("usid", "_D")); // usid_Dco1G2XU14y6aEkXzc4rLbd
+    }
+}
+```
+
+## Getting more help
+
+Visit the Nara Way page to get more information about the library:  
+[https://github.com/naraway](https://github.com/naraway)
+
+You can ask any question about Nara Way using the [NARA Way Page](https://www.naraway.io).

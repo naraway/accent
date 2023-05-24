@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
-@SuppressWarnings("UnusedReturnValue")
 @Getter
 @Setter
+@SuppressWarnings({"java:S1133", "java:S1123"})
 public class LangStrings implements JsonSerializable {
     //
     private String defaultLanguage;

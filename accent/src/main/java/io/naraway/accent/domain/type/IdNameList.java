@@ -11,16 +11,16 @@ import io.naraway.accent.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class IdNameList implements JsonSerializable, Serializable {
+public class IdNameList implements JsonSerializable {
     //
-    @SuppressWarnings("java:S1948")
     private List<IdName> idNames;
 
     public IdNameList(int capacity) {
@@ -45,9 +45,70 @@ public class IdNameList implements JsonSerializable, Serializable {
         this.idNames.add(new IdName(id, name));
     }
 
-    public IdNameList(List<IdName> idNames) {
+    private IdNameList(List<IdName> idNames) {
         //
-        this.idNames = idNames;
+        this();
+        this.idNames.addAll(idNames);
+    }
+
+    private IdNameList(IdNameList idNames) {
+        //
+        this();
+        this.idNames.addAll(idNames.list());
+    }
+
+    public static IdNameList newInstance() {
+        //
+        return new IdNameList();
+    }
+
+    public static IdNameList of(String... idNames) {
+        //
+        if (idNames.length == 0 || idNames.length % 2 != 0) {
+            throw new IllegalArgumentException("Invalid id-name pairs");
+        }
+
+        IdNameList instance = new IdNameList();
+
+        for (int i = 0; i < idNames.length / 2; i++) {
+            instance.add(idNames[i * 2], idNames[i * 2 + 1]);
+        }
+
+        return instance;
+    }
+
+    public static IdNameList of(IdName... idNames) {
+        //
+        if (idNames.length == 0) {
+            throw new IllegalArgumentException("Empty idNames");
+        }
+
+        IdNameList instance = new IdNameList();
+
+        for (IdName idName : idNames) {
+            instance.add(idName);
+        }
+
+        return instance;
+    }
+
+    public static IdNameList from(List<IdName> idNames) {
+        //
+        return new IdNameList(idNames);
+    }
+
+    public static IdNameList from(IdNameList idNames) {
+        //
+        return new IdNameList(idNames);
+    }
+
+    public static IdNameList filter(IdNameList idNames, String... ids) {
+        //
+        List<IdName> filteredIdNames = idNames.list().stream()
+                .filter(idName -> Arrays.asList(ids).contains(idName.getId()))
+                .collect(Collectors.toList());
+
+        return from(filteredIdNames);
     }
 
     @Override
@@ -137,11 +198,15 @@ public class IdNameList implements JsonSerializable, Serializable {
         return false;
     }
 
+    public boolean isEmpty() {
+        //
+        return idNames.isEmpty();
+    }
+
     public int size() {
         //
         return idNames.size();
     }
-
 
     public static IdNameList sample() {
         //

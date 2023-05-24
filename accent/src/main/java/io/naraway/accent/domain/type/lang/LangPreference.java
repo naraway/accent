@@ -6,13 +6,13 @@
 
 package io.naraway.accent.domain.type.lang;
 
-import io.naraway.accent.domain.ddd.ValueObject;
+import io.naraway.accent.domain.entity.ValueObject;
 import io.naraway.accent.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,7 +57,7 @@ public class LangPreference implements ValueObject {
                 Locale.US.getLanguage()
         );
 
-        sample.setSupportLangs(Arrays.asList(
+        sample.setSupportLangs(Collections.singletonList(
                 Locale.KOREA.getLanguage()
         ));
 

@@ -12,7 +12,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -42,14 +44,70 @@ public class CodeNameList implements JsonSerializable {
         this.codeNames.add(new CodeName(code, name));
     }
 
-    public CodeNameList(List<CodeName> codeNames) {
+    private CodeNameList(List<CodeName> codeNames) {
         //
-        this.codeNames = codeNames;
+        this();
+        this.codeNames.addAll(codeNames);
     }
 
-    public static CodeNameList newInstance(String code, String name) {
+    private CodeNameList(CodeNameList codeNames) {
         //
-        return new CodeNameList(code, name);
+        this();
+        this.codeNames.addAll(codeNames.list());
+    }
+
+    public static CodeNameList newInstance() {
+        //
+        return new CodeNameList();
+    }
+
+    public static CodeNameList of(String... codeNames) {
+        //
+        if (codeNames.length == 0 || codeNames.length % 2 != 0) {
+            throw new IllegalArgumentException("Invalid code-name pairs");
+        }
+
+        CodeNameList instance = new CodeNameList();
+
+        for (int i = 0; i < codeNames.length / 2; i++) {
+            instance.add(codeNames[i * 2], codeNames[i * 2 + 1]);
+        }
+
+        return instance;
+    }
+
+    public static CodeNameList of(CodeName... codeNames) {
+        //
+        if (codeNames.length == 0) {
+            throw new IllegalArgumentException("Empty codeNames");
+        }
+
+        CodeNameList instance = new CodeNameList();
+
+        for (CodeName codeName : codeNames) {
+            instance.add(codeName);
+        }
+
+        return instance;
+    }
+
+    public static CodeNameList from(List<CodeName> codeNames) {
+        //
+        return new CodeNameList(codeNames);
+    }
+
+    public static CodeNameList from(CodeNameList codeNames) {
+        //
+        return new CodeNameList(codeNames);
+    }
+
+    public static CodeNameList filter(CodeNameList codeNames, String... codes) {
+        //
+        List<CodeName> filteredCodeNames = codeNames.list().stream()
+                .filter(codeName -> Arrays.asList(codes).contains(codeName.getCode()))
+                .collect(Collectors.toList());
+
+        return from(filteredCodeNames);
     }
 
     @Override
@@ -104,6 +162,11 @@ public class CodeNameList implements JsonSerializable {
         }
 
         return foundIdNames;
+    }
+
+    public boolean isEmpty() {
+        //
+        return codeNames.isEmpty();
     }
 
     public int size() {

@@ -6,7 +6,7 @@
 
 package io.naraway.accent.store.jpa;
 
-import io.naraway.accent.domain.ddd.DomainEntity;
+import io.naraway.accent.domain.entity.DomainEntity;
 import io.naraway.accent.util.json.JsonSerializable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +29,10 @@ public abstract class DomainEntityJpo implements JsonSerializable {
     @Version
     protected long entityVersion;
 
-    private long registrationTime;
-    private long modificationTime;
+    private String registeredBy;
+    private long registeredOn;
+    private String modifiedBy;
+    private long modifiedOn;
 
     protected DomainEntityJpo(String id) {
         //
@@ -42,6 +44,10 @@ public abstract class DomainEntityJpo implements JsonSerializable {
         //
         this.id = domainEntity.getId();
         this.entityVersion = domainEntity.getEntityVersion();
+        this.registeredBy = domainEntity.getRegisteredBy();
+        this.registeredOn = domainEntity.getRegisteredOn();
+        this.modifiedBy = domainEntity.getRegisteredBy();
+        this.modifiedOn = domainEntity.getModifiedOn();
     }
 
     @Override

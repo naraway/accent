@@ -6,7 +6,7 @@
 
 package io.naraway.accent.store.mongo;
 
-import io.naraway.accent.domain.ddd.DomainEntity;
+import io.naraway.accent.domain.entity.DomainEntity;
 import io.naraway.accent.util.json.JsonSerializable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +27,10 @@ public abstract class DomainEntityDoc implements JsonSerializable {
     @Version
     protected long entityVersion;
 
-    private long registrationTime;
-    private long modificationTime;
+    private String registeredBy;
+    private long registeredOn;
+    private String modifiedBy;
+    private long modifiedOn;
 
     protected DomainEntityDoc(String id) {
         //
@@ -40,8 +42,10 @@ public abstract class DomainEntityDoc implements JsonSerializable {
         //
         this.id = domainEntity.getId();
         this.entityVersion = domainEntity.getEntityVersion();
-        this.registrationTime = domainEntity.getRegistrationTime();
-        this.modificationTime = domainEntity.getModificationTime();
+        this.registeredBy = domainEntity.getRegisteredBy();
+        this.registeredOn = domainEntity.getRegisteredOn();
+        this.modifiedBy = domainEntity.getModifiedBy();
+        this.modifiedOn = domainEntity.getModifiedOn();
     }
 
     @Override

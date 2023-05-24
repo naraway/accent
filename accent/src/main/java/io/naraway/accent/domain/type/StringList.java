@@ -59,11 +59,6 @@ public class StringList implements JsonSerializable {
         return JsonUtil.fromJson(json, StringList.class);
     }
 
-    public boolean isEmpty() {
-        //
-        return elements.isEmpty();
-    }
-
     public StringList add(String element) {
         //
         this.elements.add(element);
@@ -74,6 +69,11 @@ public class StringList implements JsonSerializable {
     public boolean contains(String element) {
         //
         return elements.contains(element);
+    }
+
+    public boolean isEmpty() {
+        //
+        return elements.isEmpty();
     }
 
     public int size() {
