@@ -45,6 +45,15 @@ public class Entities {
         return getUpdatableProperties(entity.getClass());
     }
 
+    public static Set<String> getUpdatableAttributes(Class clazz) {
+        //
+        if (clazz == null) {
+            return Collections.emptySet();
+        }
+
+        return getUpdatableProperties(clazz);
+    }
+
     public static Set<String> getEncryptAttributes(DomainEntity entity) {
         //
         if (entity == null) {
