@@ -6,13 +6,13 @@
 
 package io.naraway.accent.util.numeral36;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Numeral36 {
     //
     private static final int DECIMAL_36 = 36;
-
-    private Numeral36() {
-        //
-    }
 
     public static Numeral36 newInstance() {
         //

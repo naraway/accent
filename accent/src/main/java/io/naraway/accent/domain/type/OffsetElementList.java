@@ -6,77 +6,135 @@
 
 package io.naraway.accent.domain.type;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
+import io.naraway.accent.util.json.JsonSerializable;
+import io.naraway.accent.util.json.JsonUtil;
+import lombok.*;
+
+import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 
-public class OffsetElementList<T> implements Iterable<T>, Serializable {
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class OffsetElementList<T> implements JsonSerializable {
     //
-    @SuppressWarnings("java:S1948")
     private List<T> results;
-    private long totalCount;
+    private long total;
 
-    protected OffsetElementList() {
+    // to use restful paginated list
+    public static <T> OffsetElementList<T> from(Object results) {
         //
-        this.results = new ArrayList<>();
+        if (results == null) {
+            return new OffsetElementList<>(Collections.emptyList(), -1);
+        }
+
+        QueryResultType resultsType = getResponseType(results);
+        switch (resultsType) {
+            case PAGE:
+            case SLICE:
+                List<T> elements = getContent(results);
+                long total = -1;
+                if (resultsType == QueryResultType.PAGE) {
+                    total = getTotalElements(results);
+                }
+                return new OffsetElementList<>(elements, total);
+            default:
+                if (List.class.isAssignableFrom(results.getClass())) {
+                    return new OffsetElementList<>((List) results, ((List) results).size());
+                } else {
+                    return new OffsetElementList<>(List.of((T) results), 1);
+                }
+        }
     }
 
-    public OffsetElementList(long totalCount) {
+    @SuppressWarnings("java:S2589")
+    private static QueryResultType getResponseType(Object queryResult) {
         //
-        this();
-        this.totalCount = totalCount;
+        String nameForContent = "getContent";
+        String nameForTotal = "getTotalElements";
+        String nameForNext = "hasNext";
+        String nameForPrevious = "hasPrevious";
+
+        boolean hasMethodForContent = false;
+        boolean hasMethodForTotal = false;
+        boolean hasMethodForNext = false;
+        boolean hasMethodForPrevious = false;
+
+        Method[] methods = queryResult.getClass().getMethods();
+        for (Method method : methods) {
+            if (method.getName().equals(nameForContent)) {
+                hasMethodForContent = true;
+            } else if (method.getName().equals(nameForTotal)) {
+                hasMethodForTotal = true;
+            } else if (method.getName().equals(nameForNext)) {
+                hasMethodForNext = true;
+            } else if (method.getName().equals(nameForPrevious)) {
+                hasMethodForPrevious = true;
+            }
+        }
+
+        if (hasMethodForContent && hasMethodForNext && hasMethodForPrevious && hasMethodForTotal) {
+            return QueryResultType.PAGE;
+        } else if (hasMethodForContent && hasMethodForNext && hasMethodForPrevious) {
+            return QueryResultType.SLICE;
+        }
+
+        return QueryResultType.OBJECT;
     }
 
-    public OffsetElementList(List<T> results, long totalCount) {
+    private static <T> T getContent(Object queryResult) {
         //
-        this.results = results;
-        this.totalCount = totalCount;
+        String nameForContent = "getContent";
+
+        try {
+            return (T) queryResult.getClass().getMethod(nameForContent).invoke(queryResult);
+        } catch (Exception e) {
+            //
+        }
+
+        return null;
+    }
+
+    private static long getTotalElements(Object queryResult) {
+        //
+        String nameForTotalName = "getTotalElements";
+
+        try {
+            return (long) queryResult.getClass().getMethod(nameForTotalName).invoke(queryResult);
+        } catch (Exception e) {
+            //
+        }
+
+        return 0;
+    }
+
+    private enum QueryResultType {
+        //
+        PAGE,
+        SLICE,
+        OBJECT
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public String toString() {
         //
-        return results.iterator();
+        return toJson();
     }
 
-    public int size() {
+    public static OffsetElementList fromJson(String json) {
         //
-        return (results != null) ? results.size() : 0;
+        return JsonUtil.fromJson(json, OffsetElementList.class);
     }
 
-    public T get(int index) {
+    public static OffsetElementList sample() {
         //
-        return (results != null) ? results.get(index) : null;
+        return new OffsetElementList<String>(Collections.emptyList(), 0);
     }
 
-    public void add(T result) {
+    public static void main(String[] args) {
         //
-        results.add(result);
-    }
-
-    public boolean isEmpty() {
-        //
-        return (results == null || results.isEmpty());
-    }
-
-    public List<T> getResults() {
-        //
-        return results;
-    }
-
-    public void setResults(List<T> results) {
-        //
-        this.results = results;
-    }
-
-    public long getTotalCount() {
-        //
-        return totalCount;
-    }
-
-    public void setTotalCount(long totalCount) {
-        //
-        this.totalCount = totalCount;
+        System.out.println(sample().toPrettyJson());
     }
 }

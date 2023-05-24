@@ -6,8 +6,12 @@
 
 package io.naraway.accent.util.iso;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.Locale;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CountryUtil {
     //
     public static String[] requestIsoCountryCodes() {

@@ -6,12 +6,12 @@
 
 package io.naraway.accent.util.numeral36;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UsidGen {
     //
-    private UsidGen() {
-        //
-    }
-
     public static String getStr36(String prefix, String separator, long number, int formatLength) {
         //
         number = (number < 0 ? -number : number);

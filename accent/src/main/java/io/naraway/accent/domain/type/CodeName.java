@@ -6,7 +6,7 @@
 
 package io.naraway.accent.domain.type;
 
-import io.naraway.accent.domain.ddd.ValueObject;
+import io.naraway.accent.domain.entity.ValueGroup;
 import io.naraway.accent.util.json.JsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.util.StringTokenizer;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CodeName implements ValueObject {
+public class CodeName implements ValueGroup {
     //
     private String code;
     private String name;

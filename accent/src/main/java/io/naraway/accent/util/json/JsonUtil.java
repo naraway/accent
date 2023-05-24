@@ -7,22 +7,24 @@
 package io.naraway.accent.util.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonUtil {
     //
-    private JsonUtil() {
-        //
-    }
-
     public static String toJson(Object target) {
         //
+        if (target == null) {
+            return "";
+        }
+
         String result = "";
 
         ObjectMapper mapper = JsonUtil.getObjectMapper();
@@ -40,6 +42,10 @@ public class JsonUtil {
 
     public static String toPrettyJson(Object target) {
         //
+        if (target == null) {
+            return "";
+        }
+
         String result = "";
 
         ObjectMapper mapper = JsonUtil.getObjectMapper();
@@ -56,6 +62,10 @@ public class JsonUtil {
 
     public static <T> T fromJson(String json, Class<T> clazz) {
         //
+        if (json == null || json.trim().length() == 0) {
+            return null;
+        }
+
         T result = null;
 
         ObjectMapper mapper = JsonUtil.getObjectMapper();
@@ -70,13 +80,33 @@ public class JsonUtil {
         return result;
     }
 
+    public static <T> T fromJson(String json, TypeReference<T> typeReference) {
+        //
+        if (json == null || json.trim().length() == 0) {
+            return null;
+        }
+
+        T result = null;
+
+        ObjectMapper mapper = JsonUtil.getObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        try {
+            result = mapper.readValue(json, typeReference);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     public static <T> List<T> fromJsonList(String json, Class<T> clazz) {
         //
-        List<T> results = new ArrayList<>();
-
-        if (json == null || json.isEmpty()) {
-            return results;
+        if (json == null || json.trim().length() == 0) {
+            return Collections.emptyList();
         }
+
+        List<T> results = new ArrayList<>();
 
         ObjectMapper mapper = JsonUtil.getObjectMapper();
 
@@ -92,6 +122,10 @@ public class JsonUtil {
 
     public static <T> Set<T> fromJsonSet(String json, Class<T> clazz) {
         //
+        if (json == null || json.trim().length() == 0) {
+            return Collections.emptySet();
+        }
+
         Set<T> results = new HashSet<>();
 
         ObjectMapper mapper = JsonUtil.getObjectMapper();
@@ -103,17 +137,20 @@ public class JsonUtil {
             e.printStackTrace();
         }
 
+
         return results;
     }
 
     @SuppressWarnings("java:S1874")
     private static ObjectMapper getObjectMapper() {
         //
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = JsonMapper.builder()
+                .enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+                .build();
         mapper.registerModule(new JavaTimeModule());
-        mapper.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
         return mapper;
     }
 }

@@ -19,6 +19,7 @@ import java.util.Locale;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressWarnings({"java:S1133", "java:S1123"})
 public class LangString implements JsonSerializable {
     //
     private String language;

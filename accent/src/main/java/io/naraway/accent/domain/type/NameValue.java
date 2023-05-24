@@ -6,6 +6,7 @@
 
 package io.naraway.accent.domain.type;
 
+import io.naraway.accent.util.clazz.ClassUtils;
 import io.naraway.accent.util.json.JsonSerializable;
 import io.naraway.accent.util.json.JsonUtil;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,20 @@ public class NameValue implements JsonSerializable {
     //
     private String name;
     private String value;
+
+    public static NameValue of(String name, String value) {
+        //
+        return new NameValue(name, value);
+    }
+
+    public static NameValue of(String name, Object value) {
+        //
+        if (value == null) {
+            return new NameValue(name, null);
+        }
+
+        return new NameValue(name, ClassUtils.isCompositeType(value) ? JsonUtil.toJson(value) : value.toString());
+    }
 
     public static NameValue fromJson(String json) {
         //

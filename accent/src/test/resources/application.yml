@@ -5,18 +5,13 @@ spring:
     active: default
   data:
     mongodb:
-      authentication-database: accent
-      host: localhost
-      port: 27017
-      database: accent
-      username: accent
-      password: accent
+      uri: mongodb://test:test@35.221.77.153/test
 
 server:
-  port: 9093
+  port: 0
 
 logging:
   level:
-    io.naraway: info
+    io.naraway: debug
   pattern:
-    console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-60.60logger{59}){cyan} %clr(:){faint} %m%n%wEx'
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(%5p) [${spring.application.name:-},%X{traceId:-},%X{spanId:-}] [${PID:- }] [%15.15t] %clr(%-60.60logger{59}){cyan} : %m%n%wEx'

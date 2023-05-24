@@ -23,31 +23,24 @@ public class Offset implements JsonSerializable {
     private long totalCount;
     private boolean previous;
     private boolean next;
-    private boolean totalCountRequested;
     private String sortingField;
     private SortDirection sortDirection;
 
-    public Offset(int offset,
-                  int limit) {
+    public Offset(int offset, int limit) {
         //
         this.offset = offset;
         this.limit = limit > 0 ? limit : 10;
         this.sortDirection = SortDirection.ASCENDING;
-        this.totalCountRequested = false;
         this.previous = false;
         this.next = false;
     }
 
-    public Offset(int offset,
-                  int limit,
-                  SortDirection sortDirection,
-                  String sortingField) {
+    public Offset(int offset, int limit, SortDirection sortDirection, String sortingField) {
         //
         this.offset = offset;
         this.limit = limit > 0 ? limit : 10;
         this.sortDirection = sortDirection;
         this.sortingField = sortingField;
-        this.totalCountRequested = false;
         this.previous = false;
         this.next = false;
     }
@@ -57,12 +50,17 @@ public class Offset implements JsonSerializable {
         return new Offset(0, 10);
     }
 
-    public static Offset newOne(int offset, int limit) {
+    public static Offset newUnlimited() {
+        //
+        return new Offset(0, Integer.MAX_VALUE);
+    }
+
+    public static Offset from(int offset, int limit) {
         //
         return new Offset(offset, limit);
     }
 
-    public static Offset newOne(int offset, int limit, SortDirection sortDirection, String sortingField) {
+    public static Offset from(int offset, int limit, SortDirection sortDirection, String sortingField) {
         //
         return new Offset(offset, limit, sortDirection, sortingField);
     }
@@ -105,12 +103,12 @@ public class Offset implements JsonSerializable {
 
     public int page() {
         //
-        return (offset / limit);
+        return offset <= 0 ? 0 : (offset / limit);
     }
 
     public int sum() {
         //
-        return offset + limit;
+        return offset <= 0 ? limit : (offset + limit);
     }
 
     public enum SortDirection {

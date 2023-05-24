@@ -6,14 +6,14 @@
 
 package io.naraway.accent.domain.type.lang;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.Locale;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Lang {
     //
-    private Lang() {
-        //
-    }
-
     public static final String KOREAN = Locale.KOREAN.getLanguage();
     public static final String CHINESE = Locale.CHINESE.getLanguage();
     public static final String ENGLISH = Locale.US.getLanguage();
