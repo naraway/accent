@@ -25,16 +25,18 @@ import java.util.Map;
 @Builder
 public class StageRequest implements JsonSerializable {
     //
-    private String username; // usid
+    private String username;
     private UserType userType;
     private String displayName;
     private String email;
     private boolean enabled;
     private String actorId;
     private String pavilionId;
-    private List<String> cineroomIds;
+    private String osid;
+    private String usid;
     private String kollectionId;
     private String dramaId;
+    private List<String> cineroomIds;
     private List<String> roles;
     private Map<String, Object> attributes;
 
@@ -131,6 +133,8 @@ public class StageRequest implements JsonSerializable {
                 .enabled(true)
                 .actorId("0@0:0:0:0-0")
                 .pavilionId("0:0:0")
+                .osid("0:0:0")
+                .usid("anonymous")
                 .cineroomIds(Collections.emptyList())
                 .roles(Collections.emptyList())
                 .attributes(Collections.emptyMap())
@@ -149,9 +153,11 @@ public class StageRequest implements JsonSerializable {
                 .enabled(true)
                 .actorId(actorKey.getId())
                 .pavilionId(actorKey.genPavilionId())
-                .cineroomIds(Collections.singletonList(actorKey.genCineroomId()))
+                .osid("nara")
+                .usid("nara.kim")
                 .kollectionId(KollectionSample.getId())
                 .dramaId(DramaSample.getId())
+                .cineroomIds(Collections.singletonList(actorKey.genCineroomId()))
                 .roles(Collections.singletonList(DramaRole.sample().getCode()))
                 .attributes(Collections.emptyMap())
                 .build();
