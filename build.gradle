@@ -6,7 +6,7 @@ plugins {
 
 ext {
     serviceName = 'accent'
-    serviceVersion = '4.1.0'
+    serviceVersion = '4.1.1'
 
     lombokVersion = '1.18.24'
     jacksonVersion = '2.13.1'

@@ -250,9 +250,11 @@ public class ProductFlow {
         //   - boolean enabled;
         //   - String actorId;
         //   - String pavilionId;
-        //   - List<String> cineroomIds;
+        //   - String osid;
+        //   - String usid;
         //   - String kollectionId;
         //   - String dramaId;
+        //   - List<String> cineroomIds;
         //   - List<String> roles;
         //   - Map<String, Object> attributes;
     }
