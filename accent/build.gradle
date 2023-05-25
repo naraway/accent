@@ -20,9 +20,9 @@ dependencies {
     implementation "javax.persistence:javax.persistence-api:${persistenceApiVersion}"
     implementation "org.mindrot:jbcrypt:${jbcryptVersion}"
 
-    testImplementation 'org.springframework.data:spring-data-commons:2.+'
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-3.+'
-    testImplementation 'org.codehaus.groovy:groovy-all:3.+'
+    testImplementation 'org.springframework.data:spring-data-commons:2.5.4'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+    testImplementation 'org.codehaus.groovy:groovy-all:3.0.17'
 }
 
 publishing {

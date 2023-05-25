@@ -6,7 +6,7 @@ plugins {
 
 ext {
     serviceName = 'accent'
-    serviceVersion = '4.1.0-SNAPSHOT'
+    serviceVersion = '4.1.0'
 
     lombokVersion = '1.18.24'
     jacksonVersion = '2.13.1'
@@ -36,6 +36,7 @@ subprojects {
     apply plugin: 'groovy'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
+    apply plugin: 'maven' // on gradle 6.x for publish maven central
     apply plugin: 'signing'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'name.remal.sonarlint'
@@ -75,6 +76,8 @@ subprojects {
     test {
         useJUnitPlatform()
     }
+
+    apply from: '../publish.gradle'
 }
 
 task printServiceName() {
